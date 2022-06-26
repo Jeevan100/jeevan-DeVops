@@ -1,29 +1,18 @@
 @Library('my-jenkins-shared-lib') _
 
-pipeline{
-	agent any
-    stages{
-	    stage('Code Scanning'){
-		    steps{
-			    script{
-			    	scan()
-			    }
-		    }
-	    }
-        stage('Build'){
-            steps{
-		    script{
-			    build()
-		    }
+pipeline {
+    agent any
+     
+    stages {
+        stage('Ok') {
+            steps {
+                echo "Ok"
             }
         }
-        stage('Deploy'){
-            steps{
-		    script{
-			    deploy()
-		    }
-            }
-
+    }
+    post {
+        always {
+            emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
         }
     }
 }
